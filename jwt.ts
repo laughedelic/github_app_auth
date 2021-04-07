@@ -1,4 +1,4 @@
-import { create, getNumericDate } from "https://deno.land/x/djwt/mod.ts";
+import { create, getNumericDate } from "https://deno.land/x/djwt@v2.2/mod.ts";
 
 export function appJwt(appId: string, privateKey: string): Promise<string> {
   return create(
