@@ -1,4 +1,4 @@
-const githubApiUrl = "https://api.github.com";
+const githubApiUrl = Deno.env.get("GITHUB_API_URL") ?? "https://api.github.com";
 
 export async function appRequest(
   jwt: string,
