@@ -1,12 +1,12 @@
 #!/usr/bin/env deno run --allow-net=api.github.com
 
 import { appJwt } from "./jwt.ts";
-import { listInstallations, createInstallationToken } from "./request.ts";
+import { createInstallationToken, listInstallations } from "./request.ts";
 
 const [appId, privateKey, installationId, ...repositories] = Deno.args;
 if (Deno.args.length < 2) {
   console.log(
-    "Usage: github-app-auth <app-id> <private-key-base64-encoded> [installation-id [repositories ...]]"
+    "Usage: github-app-auth <app-id> <private-key-base64-encoded> [installation-id [repositories ...]]",
   );
   Deno.exit(1);
 }
@@ -20,7 +20,7 @@ if (!installationId) {
   const response = await createInstallationToken(
     jwt,
     installationId,
-    ...repositories
+    ...repositories,
   );
   console.log(response.token);
 }
