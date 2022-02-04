@@ -13,6 +13,7 @@ async function githubApiUrl() {
 export async function appRequest(
   jwt: string,
   endpoint: string,
+  // deno-lint-ignore no-explicit-any
   params?: Record<string, any>,
 ) {
   const apiUrl = await githubApiUrl();
