@@ -23,19 +23,30 @@ Then you can use it as `github_app_auth ...`.
 
 See the [API endpoint documentation](https://docs.github.com/en/rest/reference/apps#create-an-installation-access-token-for-an-app) for more info.
 
+#### GitHub API URL
+
+If you need to change the default GitHub API URL, you can do it by setting the `GITHUB_API_URL` env var and adding `--allow-env=GITHUB_API_URL` when you install the script:
+
+```shell
+export GITHUB_API_URL='...'
+deno install --allow-net="$GITHUB_API_URL" --allow-env='GITHUB_API_URL' https://deno.land/x/github_app_auth/cli.ts
+```
+
+Or use `--allow-net --allow-env` for simplicity.
+
 #### Examples
 
 Given app ID, private key and then installation ID it will create a new installation access token and print it to the standard output:
 
 ```shell
-$ github_app_auth 123456 $(cat private-key.pem | base64) 12345678
+$ github_app_auth 123456 $(base64 < private-key.pem) 12345678
 ghs_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
 If you don't know the installation ID, you can run it with only the first two arguments and get a list of the app installations:
 
 ```shell
-$ github_app_auth 123456 $(cat private-key.pem | base64)
+$ github_app_auth 123456 $(base64 < private-key.pem)
 [
   {
     "id": 12345678,
@@ -45,7 +56,7 @@ $ github_app_auth 123456 $(cat private-key.pem | base64)
 You can use generated tokens to make requests on behalf on the app. Here are some examples using GitHub's official CLI `gh`, but you can also do it with `curl` or any other tool by adding the `Authorization: token ...` header.
 
 ```shell
-$ GITHUB_TOKEN=$(github_app_auth 123456 $(cat private-key.pem | base64) 12345678)
+$ GITHUB_TOKEN=$(github_app_auth 123456 $(base64 < private-key.pem) 12345678)
 
 $ gh auth status
 github.com
