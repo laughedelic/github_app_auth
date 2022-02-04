@@ -1,0 +1,47 @@
+{
+  "plugins": [
+    "git-tag",
+    "released"
+  ],
+  "shipit": {
+    "noChangelog": true
+  },
+  "noDefaultLabels": true,
+  "labels": [
+    {
+      "name": "breaking",
+      "changelogTitle": "💥 Breaking change",
+      "description": "Major change, breaking API",
+      "releaseType": "major",
+      "color": "#C5000B"
+    },
+    {
+      "name": "feat",
+      "changelogTitle": "🚀 Enhancement",
+      "description": "Minor change, feature or enhancement",
+      "releaseType": "minor",
+      "color": "#1D76DB"
+    },
+    {
+      "name": "bugfix",
+      "changelogTitle": "🐛 Bug Fix",
+      "description": "Fix a bug in the code",
+      "releaseType": "patch",
+      "color": "#D93F0B"
+    },
+    {
+      "name": "internal",
+      "changelogTitle": "🏠 Internal",
+      "description": "Changes that don't touch any user-facing code",
+      "releaseType": "none",
+      "color": "#D4C5F9",
+      "default": true
+    },
+    {
+      "name": "release",
+      "description": "Force a release when this pr is merged",
+      "releaseType": "release",
+      "color": "#007f70"
+    }
+  ]
+}

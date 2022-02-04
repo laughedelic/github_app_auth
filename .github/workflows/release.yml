@@ -1,0 +1,21 @@
+name: Release
+
+on:
+  workflow_dispatch: # manual trigger
+  push:
+    branches: [main]
+
+concurrency: release
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: auto-it/setup-auto@v1
+
+      - name: Run release
+        run: auto shipit
