@@ -19,3 +19,22 @@ jobs:
 
       - name: Lint
         run: deno lint
+
+  cli-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Test CLI
+        run: |
+          deno run --allow-net ./cli.ts \
+            ${{ secrets.APP_ID }} \
+            ${{ secrets.APP_PRIVATE_KEY_BASE64 }} \
+            ${{ secrets.APP_INSTALLATION_ID }} \
+            | gh auth login --with-token
+
+          gh auth status
+          gh api 'installation/repositories' -q '.repositories[].name' | grep 'scala-template'
