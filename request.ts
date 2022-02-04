@@ -1,11 +1,22 @@
-const githubApiUrl = Deno.env.get("GITHUB_API_URL") ?? "https://api.github.com";
+async function githubApiUrl() {
+  const defaultUrl = "https://api.github.com";
+
+  const envAccess = { name: "env", variable: "GITHUB_API_URL" } as const;
+  const permissions = await Deno.permissions.query(envAccess);
+
+  if (permissions.state == "granted") {
+    return Deno.env.get("GITHUB_API_URL") ?? defaultUrl;
+  }
+  return defaultUrl;
+}
 
 export async function appRequest(
   jwt: string,
   endpoint: string,
-  params?: Record<string, any>
+  params?: Record<string, any>,
 ) {
-  const response = await fetch(`${githubApiUrl}/${endpoint}`, {
+  const apiUrl = await githubApiUrl();
+  const response = await fetch(`${apiUrl}/${endpoint}`, {
     headers: {
       authorization: `bearer ${jwt}`,
       accept: "application/vnd.github.v3+json",
